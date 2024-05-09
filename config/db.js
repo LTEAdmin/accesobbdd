@@ -1,18 +1,17 @@
 import pkg from 'pg';
 
-const { Client } = pkg;
+const { Pool } = pkg;
 
-const conecction = async () => {
-    const client = new Client({
-        user: 'BBDD',
-        host: 'localhost',
-        database: 'users',
-        password: '123456',
-        port: 5432,
-     });
-     await client.connect();
-     const result = await client.query('SELECT NOW()');
-     console.log(result)
-     await client.end();
+    const pool = new Pool({
+      connectionString:
+        "postgres://DB_USER:DB_PASSWORD@DB_HOST:DB_PORT/DB_DATABASE",
+    });
+     
+     const getDate = async () =>{
+         const rows= await pool.query('SELECT * from users');
+     console.log(rows)
+     return rows ;
 };
-conecction();
+getDate();
+
+export default pool
